@@ -19,8 +19,11 @@ protected:
   Gtk::HBox m_HBox;
   Gtk::VBox m_VBox;
   Gtk::Entry m_Entry;
+  Gtk::Entry t_Entry;
   Gtk::Button m_Button_Close;
   Gtk::CheckButton m_CheckButton_Editable, m_CheckButton_Visible;
+
+  // Managing the focus order
 };
 
 #endif //GTKMM_EXAMPLEWINDOW_H

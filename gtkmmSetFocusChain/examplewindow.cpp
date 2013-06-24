@@ -1,4 +1,5 @@
 #include "examplewindow.h"
+#include <vector>
 #include <iostream>
 
 ExampleWindow::ExampleWindow()
@@ -16,6 +17,12 @@ ExampleWindow::ExampleWindow()
   m_Entry.set_text(m_Entry.get_text() + " world");
   m_Entry.select_region(0, m_Entry.get_text_length());
   m_VBox.pack_start(m_Entry);
+
+  t_Entry.set_max_length(50);
+  t_Entry.set_text("test");
+  t_Entry.set_text(m_Entry.get_text() + " naaah");
+  t_Entry.select_region(0, m_Entry.get_text_length());
+  m_VBox.pack_start(t_Entry);
 
   // Note that add() can also be used instead of pack_xxx()
   m_VBox.add(m_HBox);
@@ -36,7 +43,22 @@ ExampleWindow::ExampleWindow()
   m_Button_Close.set_can_default();
   m_Button_Close.grab_default();
 
-  show_all_children();
+  // Testing to change focus chain for tabbing
+
+    GList* entry_list = 0;
+    entry_list = g_list_append(entry_list,
+        t_Entry.gobj());
+    entry_list = g_list_append(entry_list,
+        m_Entry.gobj());
+    std::cout << "g_list_length (size): " << g_list_length(entry_list)
+    << std::endl;
+
+    m_VBox.set_focus_chain(Glib::ListHandle<Gtk::Widget*>(entry_list,
+        Glib::OWNERSHIP_NONE));
+    g_list_free(entry_list);
+
+    // Last step to show everything
+    show_all_children();
 }
 
 ExampleWindow::~ExampleWindow()
