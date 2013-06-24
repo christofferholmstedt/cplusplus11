@@ -1,3 +1,6 @@
+Example found at:
+https://mail.gnome.org/archives/gtkmm-list/2005-September/msg00269.html
+
 I have a big table with buttons, entries and labels,
 and would make the TAB key jump to next entry instead
 of going through every widget. The set_focus_chain()
