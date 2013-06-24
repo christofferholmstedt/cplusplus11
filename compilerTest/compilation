@@ -1,0 +1,1 @@
+g++ -o test.run main.cpp `pkg-config gtkmm-2.4 --cflags --libs`
