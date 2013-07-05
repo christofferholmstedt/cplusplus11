@@ -1,1 +1,46 @@
 *.run
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+*/*.o
+*/*.lo
+tags
+*/tags
+.deps
+.gitignore
+.memdump
+COPYING
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache
+broken.xsl
+config.guess
+config.h
+config.h.in~
+config.log
+config.status
+config.sub
+configure
+INSTALL
+config.h.in
+depcomp
+examplewindow
+install-sh
+.dirstamp
+stamp-h1
+missing
+libtool
+ltmain.sh
