@@ -9,15 +9,15 @@ ExampleWindow::ExampleWindow()
 {
     // set_size_request(200, 100);
     set_title("WIP Metadata Editor MockUp for Inkscape");
-    // set_default_size(450,450);
+    set_default_size(450,450);
 
     /* Overview structure */
     add(outer_vbox);
     outer_vbox.add(main_window_hpaned);
-    outer_vbox.add(bottom_hbuttonbox);
+    outer_vbox.pack_start(bottom_hbuttonbox, false, 0 /* no effect */, 5);
 
     /* Position of pane divider */
-    main_window_hpaned.set_position(150);
+    main_window_hpaned.set_position(250);
 
     /* Right view of the hpane */
     main_window_hpaned.add2(temp2);
