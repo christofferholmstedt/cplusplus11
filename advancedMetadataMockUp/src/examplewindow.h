@@ -11,22 +11,16 @@ public:
 
 protected:
   //Signal handlers:
-  // void on_checkbox_editable_toggled();
-  // void on_checkbox_visibility_toggled();
   void on_button_close();
 
   //Child widgets:
-  Gtk::HBox m_HBox;
-  Gtk::HBox m_HBox_main;
-  Gtk::VBox m_VBox;
-  Gtk::Entry m_Entry;
-  Gtk::Entry t_Entry;
-  Gtk::Button m_Button_Close;
-  Gtk::Button m_Button_clean;
-  Gtk::Button m_Button_copy;
-  Gtk::Button m_Button_append;
-  Gtk::Button m_Button_overwrite;
-  Gtk::CheckButton m_CheckButton_Editable, m_CheckButton_Visible;
+  Gtk::VBox outer_vbox;
+  Gtk::HPaned main_window_hpaned;
+  Gtk::HButtonBox bottom_hbuttonbox;
+  Gtk::Button button_close;
+  Gtk::Button temp1;
+  Gtk::Button temp2;
+  Gtk::Button button_export_metadata;
 
   // Managing the focus order
 };

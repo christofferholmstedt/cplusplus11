@@ -3,22 +3,30 @@
 #include <iostream>
 
 ExampleWindow::ExampleWindow()
-: m_Button_Close("Close"),
-    // m_CheckButton_Editable("Editable"),
-    // m_CheckButton_Visible("Visible"),
-    m_Button_clean("Clean up metadata"),
-    m_Button_copy("Copy metadata"),
-    m_Button_append("Append metadata"),
-    m_Button_overwrite("Overwrite metadata")
+: button_close("Close"),
+    button_export_metadata("Export metadata"),
+    temp1("button1"),
+    temp2("button2")
 {
     // set_size_request(200, 100);
-    set_title("WIP Advanced Metadata Editor MockUp for Inkscape");
+    set_title("WIP Metadata Editor MockUp for Inkscape");
+    // set_default_size(450,450);
 
-    add(m_VBox);
+    /* Overview structure */
+    add(outer_vbox);
+    outer_vbox.add(main_window_hpaned);
+    outer_vbox.add(bottom_hbuttonbox);
 
-    m_VBox.add(m_HBox_main);
+    /* Position of pane divider */
+    main_window_hpaned.set_position(150);
 
 
+    /* Left view of the hpane */
+    main_window_hpaned.add1(temp1);
+
+    /* Right view of the hpane */
+    main_window_hpaned.add2(temp2);
+/*
     // Entry fields available from the beginning
     m_Entry.set_max_length(50);
     m_Entry.set_text("hello");
@@ -34,7 +42,7 @@ ExampleWindow::ExampleWindow()
 
     // Note that add() can also be used instead of pack_xxx()
     m_VBox.add(m_HBox);
-    /*
+
     m_HBox.pack_start(m_CheckButton_Editable);
     m_CheckButton_Editable.signal_toggled().connect( sigc::mem_fun(*this,
                 &ExampleWindow::on_checkbox_editable_toggled) );
@@ -45,42 +53,27 @@ ExampleWindow::ExampleWindow()
                 &ExampleWindow::on_checkbox_visibility_toggled) );
     m_CheckButton_Visible.set_active(true);
     */
-    // Normalise button
-    m_HBox.pack_start(m_Button_clean);
+
+    /*************************************
+     * Bottom buttons
+     *************************************/
+    bottom_hbuttonbox.set_layout(Gtk::BUTTONBOX_END);
 
     // Normalise button
-    m_HBox.pack_start(m_Button_copy);
-
-    // Normalise button
-    m_HBox.pack_start(m_Button_append);
-
-    // Normalise button
-    m_HBox.pack_start(m_Button_overwrite);
+    bottom_hbuttonbox.pack_start(button_export_metadata, false, 0);
 
     // Close button
-    m_Button_Close.signal_clicked().connect( sigc::mem_fun(*this,
+    button_close.signal_clicked().connect( sigc::mem_fun(*this,
                 &ExampleWindow::on_button_close) );
-    m_HBox.pack_start(m_Button_Close);
-    m_Button_Close.set_can_default();
-    m_Button_Close.grab_default();
+    bottom_hbuttonbox.pack_start(button_close);
+    button_close.set_can_default();
+    button_close.grab_default();
 
-    // Testing to change focus chain for tabbing
-/*
-    GList* entry_list = 0;
-    entry_list = g_list_append(entry_list,
-        t_Entry.gobj());
-    entry_list = g_list_append(entry_list,
-        m_Entry.gobj());
-    std::cout << "g_list_length (size): " << g_list_length(entry_list)
-    << std::endl;
+    /*************************************
+     * Show everything
+     *************************************/
 
-    m_VBox.set_focus_chain(Glib::ListHandle<Gtk::Widget*>(entry_list,
-        Glib::OWNERSHIP_NONE));
-    g_list_free(entry_list);
-*/
-    // Last step to show everything
     show_all_children();
-
 }
 
 ExampleWindow::~ExampleWindow()
