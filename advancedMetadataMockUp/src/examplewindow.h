@@ -32,13 +32,12 @@ protected:
 
     //Child widgets:
     Gtk::VBox outer_vbox;
+    Gtk::VBox right_pane_vbox;
     Gtk::HPaned main_window_hpaned;
     Gtk::HButtonBox bottom_hbuttonbox;
     Gtk::Button button_close;
     Gtk::Button temp2;
     Gtk::Button button_export_metadata;
-
-    // Managing the focus order
 };
 
 #endif //GTKMM_EXAMPLEWINDOW_H

@@ -1,4 +1,5 @@
 #include "examplewindow.h"
+#include <gtkmm.h>
 #include <vector>
 #include <iostream>
 
@@ -19,8 +20,29 @@ ExampleWindow::ExampleWindow()
     /* Position of pane divider */
     main_window_hpaned.set_position(250);
 
-    /* Right view of the hpane */
-    main_window_hpaned.add2(temp2);
+    /*************************************
+     * Right pane
+     *************************************/
+    main_window_hpaned.add2(right_pane_vbox);
+
+    // Image
+
+    // Entry list
+    Gtk::HBox *space1 = manage (new Gtk::HBox);
+    space1->set_size_request(15,15);
+
+    Gtk::Label *label1 = manage (new Gtk::Label);
+    label1->set_markup("Title");
+
+    Gtk::Entry *e1 = new Gtk::Entry;
+    e1->set_tooltip_text("Title");
+
+    right_pane_vbox.pack_start(*space1, false, 0, 0);
+    space1->pack_start(*label1, false, 0, 0);
+    space1->pack_start(*e1, false, 0, 0);
+
+
+    // License list
 
     /*************************************
      * Left pane
