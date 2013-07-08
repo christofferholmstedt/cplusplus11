@@ -5,7 +5,6 @@
 ExampleWindow::ExampleWindow()
 : button_close("Close"),
     button_export_metadata("Export metadata"),
-    temp1("button1"),
     temp2("button2")
 {
     // set_size_request(200, 100);
@@ -20,39 +19,44 @@ ExampleWindow::ExampleWindow()
     /* Position of pane divider */
     main_window_hpaned.set_position(150);
 
-
-    /* Left view of the hpane */
-    main_window_hpaned.add1(temp1);
-
     /* Right view of the hpane */
     main_window_hpaned.add2(temp2);
-/*
-    // Entry fields available from the beginning
-    m_Entry.set_max_length(50);
-    m_Entry.set_text("hello");
-    m_Entry.set_text(m_Entry.get_text() + " world");
-    m_Entry.select_region(0, m_Entry.get_text_length());
-    m_VBox.pack_start(m_Entry);
 
-    t_Entry.set_max_length(50);
-    t_Entry.set_text("test");
-    t_Entry.set_text(m_Entry.get_text() + " naaah");
-    t_Entry.select_region(0, m_Entry.get_text_length());
-    m_VBox.pack_start(t_Entry);
+    /*************************************
+     * Left pane
+     *************************************/
+    left_scrolledwindow.add(treeview);
+    left_scrolledwindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
-    // Note that add() can also be used instead of pack_xxx()
-    m_VBox.add(m_HBox);
+    main_window_hpaned.add1(left_scrolledwindow);
 
-    m_HBox.pack_start(m_CheckButton_Editable);
-    m_CheckButton_Editable.signal_toggled().connect( sigc::mem_fun(*this,
-                &ExampleWindow::on_checkbox_editable_toggled) );
-    m_CheckButton_Editable.set_active(true);
+    // Fill the tree view with some made up information
+    refTreeModel = Gtk::ListStore::create(columns);
+    treeview.set_model(refTreeModel);
 
-    m_HBox.pack_start(m_CheckButton_Visible);
-    m_CheckButton_Visible.signal_toggled().connect( sigc::mem_fun(*this,
-                &ExampleWindow::on_checkbox_visibility_toggled) );
-    m_CheckButton_Visible.set_active(true);
-    */
+    // First row
+    Gtk::TreeModel::Row row = *(refTreeModel->append());
+    row[columns.id] = 1;
+    row[columns.title] = "Collage";
+    row[columns.creator] = "Christoffer";
+
+    // Second row
+    row = *(refTreeModel->append());
+    row[columns.id] = 2;
+    row[columns.title] = "Circle";
+    row[columns.creator] = "Christoffer";
+
+    // Third row
+    row = *(refTreeModel->append());
+    row[columns.id] = 3;
+    row[columns.title] = "Rectangle";
+    row[columns.creator] = "Christoffer";
+
+    // Show the different columns in the user interface
+    // by adding them to the treeview.
+
+    treeview.append_column("Title", columns.title);
+    treeview.append_column("Creator", columns.creator);
 
     /*************************************
      * Bottom buttons
@@ -79,17 +83,7 @@ ExampleWindow::ExampleWindow()
 ExampleWindow::~ExampleWindow()
 {
 }
-/*
-void ExampleWindow::on_checkbox_editable_toggled()
-{
-  m_Entry.set_editable(m_CheckButton_Editable.get_active());
-}
 
-void ExampleWindow::on_checkbox_visibility_toggled()
-{
-  m_Entry.set_visibility(m_CheckButton_Visible.get_active());
-}
-*/
 void ExampleWindow::on_button_close()
 {
   hide();
