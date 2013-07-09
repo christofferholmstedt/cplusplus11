@@ -51,10 +51,9 @@ ExampleWindow::ExampleWindow()
     label2->set_markup("Creator");
     Gtk::Entry *e2 = new Gtk::Entry;
 
-    // right_pane_vbox.pack_start(*space2, false, 0, 10);
-    right_pane_vbox.add(*space2);
-    space1->pack_start(*label2, false, 0, 10);
-    space1->pack_start(*e2, false, 0, 10);
+    right_pane_vbox.pack_start(*space2, false, 0, 10);
+    space2->pack_start(*label2, false, 0, 10);
+    space2->pack_start(*e2, false, 0, 10);
 
     // License list
 
