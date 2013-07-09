@@ -5,9 +5,22 @@
 
 ExampleWindow::ExampleWindow()
 : button_close("Close"),
-    button_export_metadata("Export metadata"),
+    right_pane_table(18,18,false),
     temp2("button2")
 {
+    // only c++11 std::vector<std::string> labels{"test1", "test2", "test3"};
+    std::vector<std::string> labels;
+    labels.push_back("Title");
+    labels.push_back("Date");
+    labels.push_back("Creator");
+    labels.push_back("Rights");
+    labels.push_back("Publisher");
+    labels.push_back("Identifier");
+    labels.push_back("Source");
+    labels.push_back("Relation");
+    labels.push_back("Language");
+    labels.push_back("Keywords");
+    labels.push_back("Coverage");
     // set_size_request(200, 100);
     set_title("WIP Metadata Editor MockUp for Inkscape");
     set_default_size(600,450);
@@ -23,38 +36,52 @@ ExampleWindow::ExampleWindow()
     /*************************************
      * Right pane
      *************************************/
-    main_window_hpaned.add2(right_pane_vbox);
-    // right_scrolledwindow.add(right_pane_vbox);
-    // right_scrolledwindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+    //right_scrolledwindow.set_border_width(10);
+    main_window_hpaned.add2(right_scrolledwindow);
+    right_scrolledwindow.add(right_pane_table);
+    right_pane_table.set_row_spacings(5);
+    right_pane_table.set_col_spacings(5);
+    right_scrolledwindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
     // Image
 
     // Entry list
 
-    // First row
-    Gtk::HBox *space1 = manage (new Gtk::HBox);
-    space1->set_size_request(15,15);
+    for (int i = 1; i < 12; i++)
+    {
+        Gtk::Label *label = manage (new Gtk::Label);
+        label->set_markup(labels[i-1]);
+        label->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
+        Gtk::Entry *entry = new Gtk::Entry;
 
+        right_pane_table.attach(*label, 0, 1, i , i + 1, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+        right_pane_table.attach(*entry, 1, 2, i , i + 1, Gtk::FILL|Gtk::EXPAND, (Gtk::AttachOptions)0, 0, 0);
+    }
+
+    // First row
+    // Gtk::HBox *space1 = manage (new Gtk::HBox);
+    // space1->set_size_request(15,15);
+/*
     Gtk::Label *label1 = manage (new Gtk::Label);
     label1->set_markup("Title");
+    label1->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
     Gtk::Entry *e1 = new Gtk::Entry;
 
-    right_pane_vbox.pack_start(*space1, false, 0, 10);
-    space1->pack_start(*label1, false, 0, 10);
-    space1->pack_start(*e1, false, 0, 10);
+    right_pane_table.attach(*label1, 0, 1, 0, 1, Gtk::FILL, Gtk::FILL, 5, 0);
+    right_pane_table.attach(*e1, 1, 2, 0, 1, Gtk::FILL, Gtk::FILL, 5, 0);
 
     // Second row
     Gtk::HBox *space2 = manage (new Gtk::HBox);
-    space2->set_size_request(15,15);
+    // space2->set_size_request(15,15);
 
     Gtk::Label *label2 = manage (new Gtk::Label);
     label2->set_markup("Creator");
+    label2->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
     Gtk::Entry *e2 = new Gtk::Entry;
 
-    right_pane_vbox.pack_start(*space2, false, 0, 10);
-    space2->pack_start(*label2, false, 0, 10);
-    space2->pack_start(*e2, false, 0, 10);
-
+    right_pane_table.attach(*label2, 0, 1, 1, 2, Gtk::FILL, Gtk::FILL, 5, 0);
+    right_pane_table.attach(*e2, 1, 2, 1, 2, Gtk::FILL, Gtk::FILL, 5, 0);
+*/
     // License list
 
     /*************************************
@@ -97,9 +124,6 @@ ExampleWindow::ExampleWindow()
      * Bottom buttons
      *************************************/
     bottom_hbuttonbox.set_layout(Gtk::BUTTONBOX_END);
-
-    // Normalise button
-    bottom_hbuttonbox.pack_start(button_export_metadata, false, 0);
 
     // Close button
     button_close.signal_clicked().connect( sigc::mem_fun(*this,

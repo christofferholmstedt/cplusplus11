@@ -2,6 +2,7 @@
 #define GTKMM_EXAMPLEWINDOW_H
 
 #include <gtkmm.h>
+#include <vector>
 
 class ExampleWindow : public Gtk::Window
 {
@@ -35,10 +36,10 @@ protected:
     Gtk::VBox outer_vbox;
     Gtk::VBox right_pane_vbox;
     Gtk::HPaned main_window_hpaned;
+    Gtk::Table right_pane_table;
     Gtk::HButtonBox bottom_hbuttonbox;
     Gtk::Button button_close;
     Gtk::Button temp2;
-    Gtk::Button button_export_metadata;
 };
 
 #endif //GTKMM_EXAMPLEWINDOW_H
