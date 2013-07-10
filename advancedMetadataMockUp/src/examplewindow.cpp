@@ -34,6 +34,42 @@ ExampleWindow::ExampleWindow()
     main_window_hpaned.set_position(250);
 
     /*************************************
+     * Left pane
+     *************************************/
+    left_scrolledwindow.add(treeview);
+    left_scrolledwindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+
+    main_window_hpaned.add1(left_scrolledwindow);
+
+    // Fill the tree view with some made up information
+    refTreeModel = Gtk::TreeStore::create(columns);
+    treeview.set_model(refTreeModel);
+
+    // First row
+    Gtk::TreeModel::Row row = *(refTreeModel->append());
+    row[columns.id] = 1;
+    row[columns.title] = "Collage";
+    row[columns.creator] = "Christoffer";
+
+    // Second row
+    Gtk::TreeModel::Row childrow = *(refTreeModel->append(row.children()));
+    childrow[columns.id] = 2;
+    childrow[columns.title] = "Sun";
+    childrow[columns.creator] = "Christoffer";
+
+    // Third row
+    childrow = *(refTreeModel->append(row.children()));
+    childrow[columns.id] = 12;
+    childrow[columns.title] = "Car";
+    childrow[columns.creator] = "Unknown";
+
+    // Show the different columns in the user interface
+    // by adding them to the treeview.
+
+    treeview.append_column("Title", columns.title);
+    treeview.append_column("Creator", columns.creator);
+
+    /*************************************
      * Right pane
      *************************************/
     //right_scrolledwindow.set_border_width(10);
@@ -44,9 +80,12 @@ ExampleWindow::ExampleWindow()
     right_scrolledwindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
     // Image
+    Glib::RefPtr<Gdk::Pixbuf> image = Gdk::Pixbuf::create_from_file("img/collage.png");
+    Gtk::Image* img = Gtk::manage(new Gtk::Image(image));
+    image_window.add(*img);
+    right_pane_table.attach(image_window, 0, 2, 0 , 1, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
 
     // Entry list
-
     for (int i = 1; i < 12; i++)
     {
         Gtk::Label *label = manage (new Gtk::Label);
@@ -58,68 +97,46 @@ ExampleWindow::ExampleWindow()
         right_pane_table.attach(*entry, 1, 2, i , i + 1, Gtk::FILL|Gtk::EXPAND, (Gtk::AttachOptions)0, 0, 0);
     }
 
-    // First row
-    // Gtk::HBox *space1 = manage (new Gtk::HBox);
-    // space1->set_size_request(15,15);
-/*
-    Gtk::Label *label1 = manage (new Gtk::Label);
-    label1->set_markup("Title");
-    label1->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
-    Gtk::Entry *e1 = new Gtk::Entry;
-
-    right_pane_table.attach(*label1, 0, 1, 0, 1, Gtk::FILL, Gtk::FILL, 5, 0);
-    right_pane_table.attach(*e1, 1, 2, 0, 1, Gtk::FILL, Gtk::FILL, 5, 0);
-
-    // Second row
-    Gtk::HBox *space2 = manage (new Gtk::HBox);
-    // space2->set_size_request(15,15);
-
-    Gtk::Label *label2 = manage (new Gtk::Label);
-    label2->set_markup("Creator");
-    label2->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
-    Gtk::Entry *e2 = new Gtk::Entry;
-
-    right_pane_table.attach(*label2, 0, 1, 1, 2, Gtk::FILL, Gtk::FILL, 5, 0);
-    right_pane_table.attach(*e2, 1, 2, 1, 2, Gtk::FILL, Gtk::FILL, 5, 0);
-*/
     // License list
-
-    /*************************************
-     * Left pane
-     *************************************/
-    left_scrolledwindow.add(treeview);
-    left_scrolledwindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-
-    main_window_hpaned.add1(left_scrolledwindow);
-
-    // Fill the tree view with some made up information
-    refTreeModel = Gtk::ListStore::create(columns);
-    treeview.set_model(refTreeModel);
+    refTreeModel2 = Gtk::ListStore::create(columns2);
+    license_combobox.set_model(refTreeModel2);
 
     // First row
-    Gtk::TreeModel::Row row = *(refTreeModel->append());
-    row[columns.id] = 1;
-    row[columns.title] = "Collage";
-    row[columns.creator] = "Christoffer";
+    Gtk::TreeModel::Row row2 = *(refTreeModel2->append());
+    row2[columns2.id] = 1;
+    row2[columns2.title] = "CC Attribution-NonCommercial";
+    row2[columns2.uri] = "http://creativecommons.org/licenses/by-nc/3.0/";
 
     // Second row
-    row = *(refTreeModel->append());
-    row[columns.id] = 2;
-    row[columns.title] = "Circle";
-    row[columns.creator] = "Christoffer";
+    row2 = *(refTreeModel2->append());
+    row2[columns2.id] = 2;
+    row2[columns2.title] = "CC Attribution-ShareAlike";
+    row2[columns2.uri] = "http://creativecommons.org/licenses/by-sa/3.0/";
 
     // Third row
-    row = *(refTreeModel->append());
-    row[columns.id] = 3;
-    row[columns.title] = "Rectangle";
-    row[columns.creator] = "Christoffer";
+    row2 = *(refTreeModel2->append());
+    row2[columns2.id] = 3;
+    row2[columns2.title] = "CC Attribution";
+    row2[columns2.uri] = "http://creativecommons.org/licenses/by/3.0/";
 
-    // Show the different columns in the user interface
-    // by adding them to the treeview.
+    // License dropdown/combobox
+    license_combobox.pack_start(columns2.title);
+    Gtk::Label *label = manage (new Gtk::Label);
+    label->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
+    label->set_markup("License");
 
-    treeview.append_column("Title", columns.title);
-    treeview.append_column("Creator", columns.creator);
+    right_pane_table.attach(*label, 0, 1, 12 , 13, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+    right_pane_table.attach(license_combobox, 1, 2, 12 , 13, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
 
+    // License Entry for URI
+    Gtk::Label *uri_label = manage (new Gtk::Label);
+    uri_label->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
+    uri_label->set_markup("License URI");
+
+    Gtk::Entry *license_entry = new Gtk::Entry;
+
+    right_pane_table.attach(*uri_label, 0, 1, 13 , 14, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+    right_pane_table.attach(*license_entry, 1, 2, 13 , 14, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
     /*************************************
      * Bottom buttons
      *************************************/
@@ -135,7 +152,6 @@ ExampleWindow::ExampleWindow()
     /*************************************
      * Show everything
      *************************************/
-
     show_all_children();
 }
 
