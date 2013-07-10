@@ -56,6 +56,8 @@ protected:
 
     //Child widgets:
     Gtk::Entry license_entry;
+    Gtk::Entry title_entry;
+    Gtk::Entry creator_entry;
     Gtk::VBox outer_vbox;
     Gtk::VBox right_pane_vbox;
     Gtk::HBox image_window;

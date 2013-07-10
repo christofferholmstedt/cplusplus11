@@ -10,9 +10,7 @@ ExampleWindow::ExampleWindow()
 {
     // only c++11 std::vector<std::string> labels{"test1", "test2", "test3"};
     std::vector<std::string> labels;
-    labels.push_back("Title");
     labels.push_back("Date");
-    labels.push_back("Creator");
     labels.push_back("Rights");
     labels.push_back("Publisher");
     labels.push_back("Identifier");
@@ -63,11 +61,11 @@ ExampleWindow::ExampleWindow()
 
     // Third row
     childrow = *(refTreeModel->append(row.children()));
-    childrow[columns.id] = 12;
+    childrow[columns.id] = 3;
     childrow[columns.title] = "Car";
     childrow[columns.creator] = "Unknown";
     childrow[columns.path_to_img] = "img/car.png";
-    childrow[columns.uri] = "http://creativecommons.org/licenses/by-sa/3.0/";
+    childrow[columns.uri] = "http://creativecommons.org/licenses/by/3.0/";
 
     // Show the different columns in the user interface
     // by adding them to the treeview.
@@ -91,16 +89,32 @@ ExampleWindow::ExampleWindow()
     image_window.add(*img);
     right_pane_table.attach(image_window, 0, 2, 0 , 1, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
 
+    // Title Entry
+    Gtk::Label *title_label = manage (new Gtk::Label);
+    title_label->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
+    title_label->set_markup("Title");
+
+    right_pane_table.attach(*title_label, 0, 1, 1 , 2, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+    right_pane_table.attach(title_entry, 1, 2, 1 , 2, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+
+    // Creator Entry
+    Gtk::Label *creator_label = manage (new Gtk::Label);
+    creator_label->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
+    creator_label->set_markup("Creator");
+
+    right_pane_table.attach(*creator_label, 0, 1, 2 , 3, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+    right_pane_table.attach(creator_entry, 1, 2, 2 , 3, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+
     // Entry list
-    for (int i = 1; i < 12; i++)
+    for (int i = 1; i < 10; i++)
     {
         Gtk::Label *label = manage (new Gtk::Label);
         label->set_markup(labels[i-1]);
         label->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
         Gtk::Entry *entry = new Gtk::Entry;
 
-        right_pane_table.attach(*label, 0, 1, i , i + 1, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
-        right_pane_table.attach(*entry, 1, 2, i , i + 1, Gtk::FILL|Gtk::EXPAND, (Gtk::AttachOptions)0, 0, 0);
+        right_pane_table.attach(*label, 0, 1, i + 2 , i + 3, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+        right_pane_table.attach(*entry, 1, 2, i + 2 , i + 3, Gtk::FILL|Gtk::EXPAND, (Gtk::AttachOptions)0, 0, 0);
     }
 
     // License list
@@ -214,8 +228,19 @@ void ExampleWindow::on_treeview_row_activated( const Gtk::TreeModel::Path& path,
             Glib::ustring uri = row[columns.uri];
 
             // Change license entry value
-            std::cout << id << " " << title << " " << creator << " " << path_to_image
-                << " " << uri << std::endl;
+            title_entry.set_text(title);
+            creator_entry.set_text(creator);
+            license_entry.set_text(uri);
+
+            // Set combobox index
+            // This is just manual mapping between the two
+            // TreeModels for this mockup columns == columns2
+            if (id == 1)
+                license_combobox.set_active(0);
+            if (id == 2)
+                license_combobox.set_active(1);
+            if (id == 3)
+                license_combobox.set_active(2);
         }
     }
 }
