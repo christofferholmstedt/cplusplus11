@@ -85,8 +85,8 @@ ExampleWindow::ExampleWindow()
 
     // Image
     Glib::RefPtr<Gdk::Pixbuf> image = Gdk::Pixbuf::create_from_file("img/collage.png");
-    Gtk::Image* img = Gtk::manage(new Gtk::Image(image));
-    image_window.add(*img);
+    img.set(image);
+    image_window.add(img);
     right_pane_table.attach(image_window, 0, 2, 0 , 1, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
 
     // Title Entry
@@ -231,6 +231,8 @@ void ExampleWindow::on_treeview_row_activated( const Gtk::TreeModel::Path& path,
             title_entry.set_text(title);
             creator_entry.set_text(creator);
             license_entry.set_text(uri);
+
+            img.set(path_to_image);
 
             // Set combobox index
             // This is just manual mapping between the two

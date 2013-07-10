@@ -68,6 +68,7 @@ protected:
     Gtk::Button temp2;
 
     Glib::RefPtr<Gdk::Pixbuf> image;
+    Gtk::Image img;
 };
 
 #endif //GTKMM_EXAMPLEWINDOW_H
