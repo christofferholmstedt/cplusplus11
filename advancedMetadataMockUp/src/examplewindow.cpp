@@ -133,10 +133,14 @@ ExampleWindow::ExampleWindow()
     uri_label->set_alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER);
     uri_label->set_markup("License URI");
 
-    Gtk::Entry *license_entry = new Gtk::Entry;
-
     right_pane_table.attach(*uri_label, 0, 1, 13 , 14, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
-    right_pane_table.attach(*license_entry, 1, 2, 13 , 14, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+    right_pane_table.attach(license_entry, 1, 2, 13 , 14, Gtk::FILL, (Gtk::AttachOptions)0, 5, 0);
+    /*************************************
+     * Connect signals
+     *************************************/
+    license_combobox.signal_changed().connect( sigc::mem_fun(*this,
+                &ExampleWindow::on_license_combobox_changed) );
+
     /*************************************
      * Bottom buttons
      *************************************/
@@ -159,8 +163,28 @@ ExampleWindow::~ExampleWindow()
 {
 }
 
+    /*************************************
+     * Functions that handles signals
+     *************************************/
 void ExampleWindow::on_button_close()
 {
   hide();
 }
 
+void ExampleWindow::on_license_combobox_changed()
+{
+    Gtk::TreeModel::iterator iter = license_combobox.get_active();
+    if (iter)
+    {
+        Gtk::TreeModel::Row row = *iter;
+        if (row)
+        {
+            int id = row[columns2.id];
+            Glib::ustring title = row[columns2.title];
+            Glib::ustring uri = row[columns2.uri];
+
+            // Change license entry value
+            license_entry.set_text(uri);
+        }
+    }
+}

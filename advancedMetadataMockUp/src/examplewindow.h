@@ -13,6 +13,7 @@ public:
 protected:
     //Signal handlers:
     void on_button_close();
+    void on_license_combobox_changed();
 
     // ListStore (left part of pane)
     class ModelColumns : public Gtk::TreeModel::ColumnRecord
@@ -49,6 +50,7 @@ protected:
     Glib::RefPtr<Gtk::TreeStore> refTreeModel;
 
     //Child widgets:
+    Gtk::Entry license_entry;
     Gtk::VBox outer_vbox;
     Gtk::VBox right_pane_vbox;
     Gtk::HBox image_window;
