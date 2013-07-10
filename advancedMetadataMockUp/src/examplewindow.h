@@ -14,17 +14,22 @@ protected:
     //Signal handlers:
     void on_button_close();
     void on_license_combobox_changed();
+    void on_treeview_row_activated( const Gtk::TreeModel::Path& path,
+        Gtk::TreeViewColumn * column );
+
 
     // ListStore (left part of pane)
     class ModelColumns : public Gtk::TreeModel::ColumnRecord
     {
         public:
             ModelColumns()
-            { add(id); add(title); add(creator);}
+            { add(id); add(title); add(creator); add(path_to_img); add(uri);}
 
             Gtk::TreeModelColumn<unsigned int> id;
             Gtk::TreeModelColumn<Glib::ustring> title;
             Gtk::TreeModelColumn<Glib::ustring> creator;
+            Gtk::TreeModelColumn<Glib::ustring> path_to_img;
+            Gtk::TreeModelColumn<Glib::ustring> uri;
     };
     ModelColumns columns;
 

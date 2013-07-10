@@ -50,18 +50,24 @@ ExampleWindow::ExampleWindow()
     row[columns.id] = 1;
     row[columns.title] = "Collage";
     row[columns.creator] = "Christoffer";
+    row[columns.path_to_img] = "img/collage.png";
+    row[columns.uri] = "http://creativecommons.org/licenses/by-nc/3.0/";
 
     // Second row
     Gtk::TreeModel::Row childrow = *(refTreeModel->append(row.children()));
     childrow[columns.id] = 2;
     childrow[columns.title] = "Sun";
     childrow[columns.creator] = "Christoffer";
+    childrow[columns.path_to_img] = "img/sun.png";
+    childrow[columns.uri] = "http://creativecommons.org/licenses/by-sa/3.0/";
 
     // Third row
     childrow = *(refTreeModel->append(row.children()));
     childrow[columns.id] = 12;
     childrow[columns.title] = "Car";
     childrow[columns.creator] = "Unknown";
+    childrow[columns.path_to_img] = "img/car.png";
+    childrow[columns.uri] = "http://creativecommons.org/licenses/by-sa/3.0/";
 
     // Show the different columns in the user interface
     // by adding them to the treeview.
@@ -141,6 +147,9 @@ ExampleWindow::ExampleWindow()
     license_combobox.signal_changed().connect( sigc::mem_fun(*this,
                 &ExampleWindow::on_license_combobox_changed) );
 
+    treeview.signal_row_activated().connect( sigc::mem_fun(*this,
+                &ExampleWindow::on_treeview_row_activated) );
+
     /*************************************
      * Bottom buttons
      *************************************/
@@ -185,6 +194,28 @@ void ExampleWindow::on_license_combobox_changed()
 
             // Change license entry value
             license_entry.set_text(uri);
+        }
+    }
+}
+
+void ExampleWindow::on_treeview_row_activated( const Gtk::TreeModel::Path& path,
+        Gtk::TreeViewColumn * /* column */ )
+{
+    Gtk::TreeModel::iterator iter = refTreeModel->get_iter(path);
+    if (iter)
+    {
+        Gtk::TreeModel::Row row = *iter;
+        if (row)
+        {
+            int id = row[columns.id];
+            Glib::ustring title = row[columns.title];
+            Glib::ustring creator = row[columns.creator];
+            Glib::ustring path_to_image = row[columns.path_to_img];
+            Glib::ustring uri = row[columns.uri];
+
+            // Change license entry value
+            std::cout << id << " " << title << " " << creator << " " << path_to_image
+                << " " << uri << std::endl;
         }
     }
 }
