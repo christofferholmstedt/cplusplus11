@@ -5,7 +5,6 @@
 
 ExampleWindow::ExampleWindow()
 : button_close("Close"),
-    dup_button("Duplicate"),
     right_pane_table(18,18,false),
     temp2("button2")
 {
@@ -23,9 +22,6 @@ ExampleWindow::ExampleWindow()
     // set_size_request(200, 100);
     set_title("WIP Metadata Editor MockUp for Inkscape");
     set_default_size(600,450);
-
-    // window2 = ExampleWindow;
-    // window2.hide();
 
     /* Overview structure */
     add(outer_vbox);
@@ -173,13 +169,6 @@ ExampleWindow::ExampleWindow()
      *************************************/
     bottom_hbuttonbox.set_layout(Gtk::BUTTONBOX_END);
 
-    // Duplicate button
-    dup_button.signal_clicked().connect( sigc::mem_fun(*this,
-                &ExampleWindow::on_dup_button) );
-    bottom_hbuttonbox.pack_start(dup_button);
-    dup_button.set_can_default();
-    dup_button.grab_default();
-
     // Close button
     button_close.signal_clicked().connect( sigc::mem_fun(*this,
                 &ExampleWindow::on_button_close) );
@@ -200,14 +189,6 @@ ExampleWindow::~ExampleWindow()
     /*************************************
      * Functions that handles signals
      *************************************/
-void ExampleWindow::on_dup_button()
-{
-    // ExampleWindow::window2.show();
-    ExampleWindow * window2 = new ExampleWindow();
-    window2->show();
-    std::cout << " Test" << std::endl;
-}
-
 void ExampleWindow::on_button_close()
 {
   hide();

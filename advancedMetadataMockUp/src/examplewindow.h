@@ -13,7 +13,6 @@ public:
 protected:
     //Signal handlers:
     void on_button_close();
-    void on_dup_button();
     void on_license_combobox_changed();
     void on_treeview_row_activated( const Gtk::TreeModel::Path& path,
         Gtk::TreeViewColumn * column );
@@ -47,7 +46,6 @@ protected:
     };
     ModelColumns2 columns2;
 
-
     Gtk::ComboBox license_combobox;
     Glib::RefPtr<Gtk::ListStore> refTreeModel2;
 
@@ -67,7 +65,6 @@ protected:
     Gtk::Table right_pane_table;
     Gtk::HButtonBox bottom_hbuttonbox;
     Gtk::Button button_close;
-    Gtk::Button dup_button;
     Gtk::Button temp2;
 
     Glib::RefPtr<Gdk::Pixbuf> image;
